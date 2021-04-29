@@ -31,3 +31,6 @@ prompt=(
     'quote:'
 )
 response=openai.Classification.create(engine='davinci', prompt=prompt)
+print(prompt)
+with open('prompt.txt',"w") as f:
+    f.write(prompt)
