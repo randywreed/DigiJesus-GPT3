@@ -1,131 +1,39 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# <a href="https://colab.research.google.com/github/randywreed/DigiJesus-GPT3/blob/main/digitaljesus_prompt_gpt_neo.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-get_ipython().system('pip install transformers')
-
-
-# In[ ]:
-
-
-import os
-import transformers
-
-
-# In[ ]:
-
-
-#if not using gdrive
-modelpath="EleutherAI/gpt-neo-1.3B"
-tokenpath="EleutherAI/gpt-neo-1.3B"
-
-
-# In[ ]:
-
-
-#skip if not using Gdrive 
-from google.colab import drive
-drive.mount('/content/gdrive')
-
-
-# In[ ]:
-
-
-#if using Gdrive (probably requires colab pro get's out of memory error)
-modelpath='/content/gdrive/MyDrive/Data Analysis for Humanities/Jesus saying database/gptneomodel/model'
-tokenpath='/content/gdrive/MyDrive/Data Analysis for Humanities/Jesus saying database/gptneomodel/tokenizer'
-
-
-# In[ ]:
-
-
-# download pretrained model and save to google drive. 
-from transformers import GPTNeoForCausalLM, GPT2Tokenizer
-model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-1.3B")
-tokenizer = GPT2Tokenizer.from_pretrained("EleutherAI/gpt-neo-1.3B")
-model.save_pretrained(modelpath)
-tokenizer.save_pretrained(tokenpath)
-
-
-# In[ ]:
-
 
 from transformers import pipeline
 generator=pipeline('text-generation', model="EleutherAI/gpt-neo-1.3B",device=0)
 
-
-# In[ ]:
-
-
 from transformers import GPT2Tokenizer
 tokenizer=GPT2Tokenizer.from_pretrained("EleutherAI/gpt-neo-1.3B",device=0)
 
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
 from transformers import pipeline, GPT2Tokenizer
-generator = pipeline('text-generation', model="EleutherAI/gpt-neo-2.7B", device=0)
-
-
-# In[ ]:
-
+#generator = pipeline('text-generation', model="EleutherAI/gpt-neo-2.7B", device=0)
 
 from transformers import GPT2Tokenizer
-tokenizer=GPT2Tokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B", device=0)
+#tokenizer=GPT2Tokenizer.from_pretrained("EleutherAI/gpt-neo-2.7B", device=0)
+
+# class IpyExit(SystemExit):
+#     """Exit Exception for IPython.
+
+#     Exception temporarily redirects stderr to buffer.
+#     """
+#     def __init__(self):
+#         # print("exiting")  # optionally print some message to stdout, too
+#         # ... or do other stuff before exit
+#         sys.stderr = StringIO()
+
+#     def __del__(self):
+#         sys.stderr.close()
+#         sys.stderr = sys.__stderr__  # restore from backup
 
 
-# In[ ]:
+# def ipy_exit():
+#     raise IpyExit
 
 
-import sys
-from io import StringIO
-from IPython import get_ipython
-
-
-class IpyExit(SystemExit):
-    """Exit Exception for IPython.
-
-    Exception temporarily redirects stderr to buffer.
-    """
-    def __init__(self):
-        # print("exiting")  # optionally print some message to stdout, too
-        # ... or do other stuff before exit
-        sys.stderr = StringIO()
-
-    def __del__(self):
-        sys.stderr.close()
-        sys.stderr = sys.__stderr__  # restore from backup
-
-
-def ipy_exit():
-    raise IpyExit
-
-
-if get_ipython():    # ...run with IPython
-    exit = ipy_exit  # rebind to custom exit
-else:
-    exit = exit      # just make exit importable
-
-
-# In[ ]:
-
+# if get_ipython():    # ...run with IPython
+#     exit = ipy_exit  # rebind to custom exit
+# else:
+#     exit = exit      # just make exit importable
 
 import torch
 
@@ -174,18 +82,3 @@ with open("prompt.txt","r+") as promptfile:
                     else:
                         if action=="r":
                             loopflag=False
-
-
-# In[ ]:
-
-
-del generator
-#gc.collect()
-torch.cuda.empty_cache()
-
-
-# In[ ]:
-
-
-
-
