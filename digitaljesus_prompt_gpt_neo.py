@@ -50,11 +50,13 @@ with open("prompt.txt","r+") as promptfile:
             print(f'prompt length={minl.length}')
             passlen=tokenizer(newpassage,return_length=True)
             print(f'new prompt token length {passlen.length}')
-            minl=int(input('enter max length: '))
+            #minl=int(input('enter max length: '))
+            minlen=minl.length+passlen.length
             temparature=float(input('Enter tempreature: '))
-            response=generator(prompt, do_sample=True,bs=2 ,max_length=minl, temperature=temparature)
+            response=generator(prompt, do_sample=False,bs=2 ,max_length=minlen, temperature=temparature)
             newresponse=response[0]['generated_text'].split("###")[-2]
             newsayings=newresponse.split('\n')
+            print(newsayings)
             print(f'prompt= {newsayings[1]}')
             print(f'quote={newsayings[2]}')
            
